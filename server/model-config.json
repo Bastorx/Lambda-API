@@ -13,6 +13,10 @@
     "dataSource": "db",
     "public": true
   },
+  "Image": {
+    "dataSource": "db",
+    "public": true
+  },
   "AccessToken": {
     "dataSource": "db",
     "public": false
@@ -28,17 +32,5 @@
   "Role": {
     "dataSource": "db",
     "public": false
-  },
-  "Project": {
-    "dataSource": "db",
-    "public": true
-  },
-  "Video": {
-    "dataSource": "db",
-    "public": true
-  },
-  "Carousel": {
-    "dataSource": "db",
-    "public": true
   }
 }

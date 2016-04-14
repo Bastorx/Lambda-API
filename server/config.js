@@ -1,13 +1,6 @@
 'use strict';
 
-var _ = require('lodash');
-
 module.exports = {
-    restApiRoot: '/api'
+    restApiRoot: '/api',
+    legacyExplorer: false
 };
-
-function commaSeparated(s) {
-    if (_.isUndefined(s) || '' === s) return [];
-
-    return _.map((s || '').split(','), _.trim);
-}

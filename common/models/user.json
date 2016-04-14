@@ -14,53 +14,21 @@
       "type": "string",
       "id": true
     },
-    "firstName": {
+    "username": {
       "type": "string",
       "required": true
     },
-    "lastName": {
+    "password": {
       "type": "string",
       "required": true
     },
     "email": {
       "type": "string",
       "required": true
-    },
-    "gender": {
-      "type": "string",
-      "required": true
-    },
-    "phoneNumber": {
-      "type": "array"
-    },
-    "birth": {
-      "type": "date"
-    },
-    "description": {
-      "type": "string"
     }
   },
   "validations": [],
   "relations": {},
-  "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "DENY"
-    },
-    {
-      "accessType": "READ",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "admin",
-      "permission": "ALLOW"
-    }
-  ],
+  "acls": [],
   "methods": {}
 }

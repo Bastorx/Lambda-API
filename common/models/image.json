@@ -1,16 +1,16 @@
 {
-  "name": "Video",
-  "plural": "Videos",
-  "base": "",
-  "strict": true,
-  "idInjection": true,
+  "name": "Image",
+  "plural": "Images",
   "options": {
     "sharedMethodNames": [
       "find",
-      "findById"
+      "findById",
+      "create",
+      "updateAttributes",
+      "destroyById"
     ],
     "mongodb": {
-      "collection": "articles"
+      "collection": "users"
     }
   },
   "properties": {
@@ -18,37 +18,34 @@
       "type": "string",
       "id": true
     },
-    "title": {
+    "userId": {
       "type": "string",
       "required": true
     },
-    "description": {
-      "type": "string"
-    },
-    "url": {
-      "type": "string",
+    "data": {
+      "type": "data",
       "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    }
+  },
   "acls": [
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$unauthenticated",
       "permission": "DENY"
-    },
-    {
-      "accessType": "READ",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW"
     },
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "admin",
+      "principalId": "$authenticated",
       "permission": "ALLOW"
     }
   ],
