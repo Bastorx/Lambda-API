@@ -37,6 +37,7 @@ module.exports = function(Image) {
             if (containers.some(function(e) { return e.name == userId; })) {
                 q.ninvoke(Container, 'upload', req, res, {container: userId})
                 	.then(function(file) {
+                		console.log(file);
                 		var f = file.files && file.files.file && file.files.file[0];
                 		if (!(f)) return next({status: 500, message: "Problem with the file"});
                 		return q.ninvoke(Image, 'upsert', {
@@ -57,6 +58,7 @@ module.exports = function(Image) {
                 Container.createContainer({name: userId}, function(err, c) {
                 q.ninvoke(Container, 'upload', req, res, {container: c.name})
                 	.then(function(file) {
+                		console.log(file);
                 		var f = file.files && file.files.file && file.files.file[0];
                 		if (!(f)) return next({status: 500, message: "Problem with the file"});
                 		return q.ninvoke(Image, 'upsert', {
