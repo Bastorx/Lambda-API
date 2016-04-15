@@ -8,7 +8,6 @@ module.exports = function(Image) {
 	Hooks.updateTimestamps(Image);
 
 	Image.observe('before save', function(ctx, next) {
-		console.log(ctx.req);
 		if (ctx.instance && !ctx.instance.userId) {
 			ctx.instance.userId = loopback.getCurrentContext().get('accessToken').userId;
 			next();

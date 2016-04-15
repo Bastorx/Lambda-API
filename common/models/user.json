@@ -15,16 +15,13 @@
       "id": true
     },
     "username": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "password": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "email": {
-      "type": "string",
-      "required": true
+      "type": "string"
     }
   },
   "validations": [],
