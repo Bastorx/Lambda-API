@@ -94,8 +94,23 @@ module.exports = function(Image) {
     		});
     };
 
-    Image.stream = function() {
-
+    Image.stream = function(id, res, next) {
+    	return q.ninvoke(Image, 'findById', id)
+    		.then(function(image) {
+    			res.set('Content-Type', image.file.type);
+    			res.set('Content-Transfer-Encoding','binary');
+    			return q.fcall(function() {
+    				return fs.readFileSync(__dirname + '/../../client/pictures/' + image.file.container + '/' + image.file.name)
+    			});
+    		})
+    		.then(function(file) {
+    			res.send(file);
+    		})
+    		.fail(function(err) {
+    			res.set('Content-Type', 'application/json');
+    			console.log('Error : ', err);
+    			next({status: 500, err});
+    		});
     };
 
     Image.remoteMethod(
@@ -130,9 +145,9 @@ module.exports = function(Image) {
         {
          http: {path: '/:id/stream', verb: 'get'},
          accepts: [
-         	{arg: 'id', type: 'string', 'http': {source: 'path'}}
-         ],
-         returns: {arg: 'status', type: 'string'}
+         	{arg: 'id', type: 'string', 'http': {source: 'path'}},
+         	{arg: 'res', type: 'object', 'http': {source: 'res'}}
+         ]
         }
     );
 };

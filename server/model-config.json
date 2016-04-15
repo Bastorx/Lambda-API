@@ -35,6 +35,6 @@
   },
   "Container": {
     "dataSource": "files",
-    "public": true
+    "public": false
   }
 }
