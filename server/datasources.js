@@ -1,4 +1,5 @@
 'use strict';
+var path = require('path');
 
 module.exports = {
   "db": {
@@ -9,5 +10,11 @@ module.exports = {
     "password":  process.env.DB_PWD,
     "name": "db",
     "connector": "mongodb"
-  }
+  },
+  "files": {
+   "name": "files",
+   "connector": "loopback-component-storage",
+    "provider": 'filesystem',
+    "root": path.join(__dirname, '../client/pictures')
+ }
 }

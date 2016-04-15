@@ -5,12 +5,13 @@
     "sharedMethodNames": [
       "find",
       "findById",
-      "create",
       "updateAttributes",
-      "destroyById"
+      "destroyById",
+      "upload",
+      "download"
     ],
     "mongodb": {
-      "collection": "users"
+      "collection": "images"
     }
   },
   "properties": {
@@ -19,12 +20,7 @@
       "id": true
     },
     "userId": {
-      "type": "string",
-      "required": true
-    },
-    "data": {
-      "type": "data",
-      "required": true
+      "type": "string"
     }
   },
   "validations": [],
@@ -40,7 +36,7 @@
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$unauthenticated",
-      "permission": "DENY"
+      "permission": "ALLOW"
     },
     {
       "accessType": "*",
