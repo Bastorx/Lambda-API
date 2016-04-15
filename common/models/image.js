@@ -97,12 +97,12 @@ module.exports = function(Image) {
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(image) {
     			res.set('Content-Type', image.file.type);
-    			res.set('Content-Transfer-Encoding','binary');
     			return q.fcall(function() {
     				return fs.readFileSync(__dirname + '/../../client/pictures/' + image.file.container + '/' + image.file.name)
     			});
     		})
     		.then(function(file) {
+    			res.set('Content-Transfer-Encoding','binary');
     			res.send(file);
     		})
     		.fail(function(err) {
