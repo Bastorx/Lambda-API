@@ -2,6 +2,17 @@ var loopback = require('loopback');
 var Hooks = require('./hooks');
 var fs = require('fs');
 var q = require('q');
+/*var lambdaws = require('lambdaws');
+
+lambdaws.config({
+   credentials: {
+       accessKey: '',  // string, AWS AccessKeyId.
+       secretKey: '',  // string, AWS AccessKeySecret.
+   },
+   role: '' // ** Required **
+});
+
+lambdaws.start();*/
 
 module.exports = function(Image) {
 	Hooks.generateId(Image);

@@ -25,7 +25,21 @@
     }
   },
   "validations": [],
-  "relations": {},
-  "acls": [],
+  "relations": {
+    "images": {
+      "type": "hasMany",
+      "model": "Image",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "proprety": "__get__Images"
+    }
+  ],
   "methods": {}
 }
