@@ -19,10 +19,10 @@ module.exports = function(Image) {
 
     Image.prototype.toRemoteObject =
     Image.prototype.toShortRemoteObject = function (context) {
-    	console.log("ICCCCI", context);
       return {
             id                  : this.id,
             userId				: this.userId,
+            url 				: this.url,
             createdAt           : this.createdAt,
             updatedAt           : this.updatedAt
         };
@@ -45,8 +45,11 @@ module.exports = function(Image) {
                 			file: f
                 		})
                 		.then(function(im) {
+                			return q.ninvoke(im, 'updateAttributes', {url: process.env.URL + '/api/Images/' + im.id + '/stream'});
+                		})
+                		.then(function(im) {
                 			console.log('Create new file :', im);
-                			next();
+                			next(null, im);
                 		})
                 		.fail(function(err) {
                 			console.log('Error : ', err);
@@ -66,8 +69,11 @@ module.exports = function(Image) {
                 			file: f
                 		})
                 		.then(function(im) {
+                			return q.ninvoke(im, 'updateAttributes', {url: process.env.URL + '/api/Images/' + im.id + '/stream'});
+                		})
+                		.then(function(im) {
                 			console.log('Create new file :', im);
-                			next();
+                			next(null, im);
                 		})
                 		.fail(function(err) {
                 			console.log('Error : ', err);
@@ -114,6 +120,10 @@ module.exports = function(Image) {
     		});
     };
 
+    Image.edit = function(next) {
+    	next();
+    };
+
     Image.remoteMethod(
         'upload',
         {
@@ -148,6 +158,18 @@ module.exports = function(Image) {
          accepts: [
          	{arg: 'id', type: 'string', 'http': {source: 'path'}},
          	{arg: 'res', type: 'object', 'http': {source: 'res'}}
+         ]
+        }
+    );
+
+    Image.remoteMethod(
+        'edit',
+        {
+         http: {path: '/:id/edit', verb: 'get'},
+         accepts: [
+         	{arg: 'id', type: 'string', 'http': {source: 'path'}},
+         	{arg: 'operation', type: 'string'},
+         	{arg: 'params', type: 'array'}
          ]
         }
     );

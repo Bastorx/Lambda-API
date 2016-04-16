@@ -9,7 +9,8 @@
       "destroyById",
       "upload",
       "download",
-      "stream"
+      "stream",
+      "edit"
     ],
     "mongodb": {
       "collection": "images"
@@ -44,6 +45,13 @@
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "stream"
     }
   ],
   "methods": {}
