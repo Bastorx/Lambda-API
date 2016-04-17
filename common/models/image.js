@@ -133,16 +133,14 @@ module.exports = function(Image) {
     };
 
     Image.edit = function(res, id, body, next) {
-    	var op = body.op,
-    		params = body.params;
-    	console.log(op);
+    	console.log(body);
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(im) {
 
 		    	var params = JSON.stringify({
-			    		op: op,
+			    		op: body.operation,
 			    		link: im.url,
-			    		params: params
+			    		params: body.params
 		    		});
 
 		    	var request = {
