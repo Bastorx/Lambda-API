@@ -135,7 +135,7 @@ module.exports = function(Image) {
     Image.edit = function(res, id, op, params, next) {
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(im) {
-    			console.log(im);
+
 		    	var params = JSON.stringify({
 			    		op: op,
 			    		link: im.url,
@@ -146,7 +146,7 @@ module.exports = function(Image) {
 					FunctionName: 'image',
 					Payload: params
 				};
-
+				console.log(request);
 		    	return q.ninvoke(lambda, 'invoke', request)
 		    		.then(function(im) {
 		    			console.log(im);
