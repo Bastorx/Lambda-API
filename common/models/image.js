@@ -132,7 +132,9 @@ module.exports = function(Image) {
     		});
     };
 
-    Image.edit = function(res, id, op, params, next) {
+    Image.edit = function(res, id, body, next) {
+    	var op = body.op,
+    		params = body.params;
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(im) {
 
@@ -204,8 +206,7 @@ module.exports = function(Image) {
          accepts: [
          	{arg: 'res', type: 'object', 'http': {source: 'res'}},
          	{arg: 'id', type: 'string', 'http': {source: 'path'}},
-         	{arg: 'operation', type: 'string'},
-         	{arg: 'params', type: 'array'}
+         	{arg: 'body', type: 'object',  http: {source: 'body'}}
          ]
         }
     );
