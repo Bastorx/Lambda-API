@@ -2,17 +2,18 @@ var loopback = require('loopback');
 var Hooks = require('./hooks');
 var fs = require('fs');
 var q = require('q');
-/*var lambdaws = require('lambdaws');
+var request = require('superagent');
 
-lambdaws.config({
-   credentials: {
-       accessKey: '',  // string, AWS AccessKeyId.
-       secretKey: '',  // string, AWS AccessKeySecret.
-   },
-   role: '' // ** Required **
+var AWS = require('aws-sdk');
+
+AWS.config.update({
+	region:'eu-west-1',
+	accessKeyId: 'AKIAIZAGRJAR7QXTPYPA',
+	secretAccessKey: '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'
 });
 
-lambdaws.start();*/
+var lambda = new AWS.Lambda();
+
 
 module.exports = function(Image) {
 	Hooks.generateId(Image);
@@ -131,8 +132,29 @@ module.exports = function(Image) {
     		});
     };
 
-    Image.edit = function(next) {
-    	next();
+    Image.edit = function(res, id, op, params, next) {
+    	return q.ninvoke(Image, 'findById', id)
+    		.then(function(im) {
+		    	var params = JSON.stringify({
+			    		op: op,
+			    		link: im.url,
+			    		params: params
+		    		});
+
+		    	var request = {
+					FunctionName: 'image',
+					Payload: params
+				};
+
+		    	return q.ninvoke(lambda, 'invoke', request)
+		    		.then(function(im) {
+		    			im = JSON.parse(im.Payload);
+		    			var buf = new Buffer(im);
+
+		    			res.set('Content-Type', 'image/png');
+		    			res.send(buf);
+		    		});
+    		});
     };
 
     Image.remoteMethod(
@@ -176,8 +198,9 @@ module.exports = function(Image) {
     Image.remoteMethod(
         'edit',
         {
-         http: {path: '/:id/edit', verb: 'get'},
+         http: {path: '/:id/edit', verb: 'post'},
          accepts: [
+         	{arg: 'res', type: 'object', 'http': {source: 'res'}},
          	{arg: 'id', type: 'string', 'http': {source: 'path'}},
          	{arg: 'operation', type: 'string'},
          	{arg: 'params', type: 'array'}
