@@ -135,6 +135,7 @@ module.exports = function(Image) {
     Image.edit = function(res, id, body, next) {
     	var op = body.op,
     		params = body.params;
+    	console.log(op);
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(im) {
 
