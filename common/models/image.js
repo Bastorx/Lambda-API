@@ -135,6 +135,7 @@ module.exports = function(Image) {
     Image.edit = function(res, id, op, params, next) {
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(im) {
+    			console.log(im);
 		    	var params = JSON.stringify({
 			    		op: op,
 			    		link: im.url,
@@ -148,6 +149,7 @@ module.exports = function(Image) {
 
 		    	return q.ninvoke(lambda, 'invoke', request)
 		    		.then(function(im) {
+		    			console.log(im);
 		    			im = JSON.parse(im.Payload);
 		    			var buf = new Buffer(im);
 
