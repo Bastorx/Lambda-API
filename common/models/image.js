@@ -142,9 +142,9 @@ module.exports = function(Image) {
     		.then(function(im) {
 
 		    	var params = JSON.stringify({
-			    		op: req.query.op,
+			    		op: op,
 			    		link: im.url,
-			    		params: req.query.params
+			    		params: params
 		    		});
 		    	console.log("PARAMS:", params);
 		    	var request = {
