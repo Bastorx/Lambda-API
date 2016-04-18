@@ -149,7 +149,6 @@ module.exports = function(Image) {
 					FunctionName: 'image',
 					Payload: payload
 				};
-				console.log('REQUEST', request)
 		    	return q.ninvoke(lambda, 'invoke', request)
 		    		.then(function(im) {
 		    			console.log("IMAGE", im);
