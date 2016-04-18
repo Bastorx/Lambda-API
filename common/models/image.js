@@ -44,7 +44,7 @@ module.exports = function(Image) {
     Image.upload = function(req, res, next) {
         var Container = Image.app.models.Container;
         var userId =  req.accessToken && req.accessToken.userId;
-        if (!userId) next({status: 401, message: "AccessToken is required"});
+        //if (!userId) next({status: 401, message: "AccessToken is required"});
 
         Container.getContainers(function (err, containers) {
             if (containers.some(function(e) { return e.name == userId; })) {
@@ -140,18 +140,15 @@ module.exports = function(Image) {
     	}
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(im) {
-
-		    	var params = JSON.stringify({
+		    	var payload = JSON.stringify({
 			    		op: op,
 			    		link: im.url,
 			    		params: params
 		    		});
-		    	console.log("PARAMS:", params);
 		    	var request = {
 					FunctionName: 'image',
-					Payload: params
+					Payload: payload
 				};
-				console.log("REQUEST:", request);
 		    	return q.ninvoke(lambda, 'invoke', request)
 		    		.then(function(im) {
 		    			console.log("IMAGE", im);
