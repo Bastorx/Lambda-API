@@ -3,6 +3,7 @@ var Hooks = require('./hooks');
 var fs = require('fs');
 var q = require('q');
 var request = require('superagent');
+var _ = require('lodash');
 
 var AWS = require('aws-sdk');
 
@@ -132,22 +133,24 @@ module.exports = function(Image) {
     		});
     };
 
-    Image.edit = function(res, id, body, next) {
-    	console.log(body);
+    Image.edit = function(req, res, id, next) {
+    	if (req.query) {
+    		var op = _.isArray(req.query.op) ? req.query.op : [req.query.op];
+    		var params = _.isArray(req.query.params) ? req.query.params : [req.query.params];
+    	}
     	return q.ninvoke(Image, 'findById', id)
     		.then(function(im) {
 
 		    	var params = JSON.stringify({
-			    		op: body.operation,
+			    		op: req.query.op,
 			    		link: im.url,
-			    		params: body.params
+			    		params: req.query.params
 		    		});
 
 		    	var request = {
 					FunctionName: 'image',
 					Payload: params
 				};
-				console.log(request);
 		    	return q.ninvoke(lambda, 'invoke', request)
 		    		.then(function(im) {
 		    			console.log(im);
@@ -201,11 +204,11 @@ module.exports = function(Image) {
     Image.remoteMethod(
         'edit',
         {
-         http: {path: '/:id/edit', verb: 'post'},
+         http: {path: '/:id/edit', verb: 'get'},
          accepts: [
+         	{arg: 'req', type: 'object', 'http': {source: 'req'}},
          	{arg: 'res', type: 'object', 'http': {source: 'res'}},
-         	{arg: 'id', type: 'string', 'http': {source: 'path'}},
-         	{arg: 'body', type: 'object',  http: {source: 'body'}}
+         	{arg: 'id', type: 'string', 'http': {source: 'path'}}
          ]
         }
     );
