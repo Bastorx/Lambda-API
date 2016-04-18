@@ -146,14 +146,15 @@ module.exports = function(Image) {
 			    		link: im.url,
 			    		params: req.query.params
 		    		});
-
+		    	console.log("PARAMS:", params);
 		    	var request = {
 					FunctionName: 'image',
 					Payload: params
 				};
+				console.log("REQUEST:", request);
 		    	return q.ninvoke(lambda, 'invoke', request)
 		    		.then(function(im) {
-		    			console.log(im);
+		    			console.log("IMAGE", im);
 		    			im = JSON.parse(im.Payload);
 		    			var buf = new Buffer(im);
 
